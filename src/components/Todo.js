@@ -2,11 +2,15 @@ import React from "react";
 
 const Todo = () => {
     const [todos, setTodos] = React.useState([]);
+
     const [todo, setTodo] = React.useState("");
     const [detail, setDetail] = React.useState("");
+   
     const [todoEditing, setTodoEditing] = React.useState(null);
     const [editingText, setEditingText] = React.useState("");
+    
     const [editingDetails, setEditingDetails] = React.useState("");
+    
 
     React.useEffect(() => {
         const json = localStorage.getItem("todos");
@@ -23,12 +27,10 @@ const Todo = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
-
         const newTodo = {
-            id: new Date().getTime(),
+            id: new Date().getTime().toString(),
             text: todo,
             description: detail,
-            completed: false,
         };
         setTodos([...todos].concat(newTodo));
         setTodo("");
@@ -44,6 +46,7 @@ const Todo = () => {
         const updatedTodos = [...todos].map((todo) => {
             if (todo.id === id) {
                 todo.text = editingText;
+                todo.details = editingDetails
             }
             return todo;
         });
@@ -55,7 +58,7 @@ const Todo = () => {
         <div className="container-fluid">
             <h1>Todo List</h1>
             <form onSubmit={handleSubmit}>
-                <div class="form-group">
+                <div className="form-group">
                     <input
                         type="text"
                         className="form-control"
@@ -64,7 +67,7 @@ const Todo = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <textarea class="form-control"
+                    <textarea className="form-control"
                         rows="3"
                         onChange={(e) => setDetail(e.target.value)}
                         value={detail}
@@ -79,18 +82,17 @@ const Todo = () => {
                     <div className="todo-text">
                         {todo.id === todoEditing ? (
                             <div>
-                                <div class="form-group">
+                                <div className="form-group">
                                     <input
                                         type="text"
                                         className="form-control"
                                         onChange={(e) => setEditingText(e.target.value)}
                                     />
                                 </div>
-                                <div class="form-group">
-                                    <textarea class="form-control"
+                                <div className="form-group">
+                                    <textarea className="form-control"
                                         rows="3"
                                         onChange={(e) => setEditingDetails(e.target.value)}
-                                        value={detail}
                                     ></textarea>
                                 </div>
                             </div>
